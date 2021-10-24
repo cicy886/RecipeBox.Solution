@@ -1,7 +1,7 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Identity;
-using RecipeBox.Models;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using RecipeBox.Models;
 using RecipeBox.ViewModels;
 
 namespace RecipeBox.Controllers
@@ -9,10 +9,16 @@ namespace RecipeBox.Controllers
     public class AccountController : Controller
     {
         private readonly RecipeBoxContext _db;
+
         private readonly UserManager<ApplicationUser> _userManager;
+
         private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public AccountController (UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RecipeBoxContext db)
+        public AccountController(
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
+            RecipeBoxContext db
+        )
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -30,10 +36,11 @@ namespace RecipeBox.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Register (RegisterViewModel model)
+        public async Task<ActionResult> Register(RegisterViewModel model)
         {
             var user = new ApplicationUser { UserName = model.Email };
-            IdentityResult result = await _userManager.CreateAsync(user, model.Password);
+            IdentityResult result =
+                await _userManager.CreateAsync(user, model.Password);
             if (result.Succeeded)
             {
                 return RedirectToAction("Index");
@@ -43,16 +50,22 @@ namespace RecipeBox.Controllers
                 return View();
             }
         }
+
         public ActionResult Login()
         {
-          return View();
+            return View();
         }
 
         [HttpPost]
         public async Task<ActionResult> Login(LoginViewModel model)
         {
-           Microsoft.AspNetCore.Identity.SignInResult result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, isPersistent: true, lockoutOnFailure: false);
-           if (result.Succeeded)
+            Microsoft.AspNetCore.Identity.SignInResult result =
+                await _signInManager
+                    .PasswordSignInAsync(model.Email,
+                    model.Password,
+                    isPersistent: true,
+                    lockoutOnFailure: false);
+            if (result.Succeeded)
             {
                 return RedirectToAction("Index");
             }
@@ -61,6 +74,7 @@ namespace RecipeBox.Controllers
                 return View();
             }
         }
+
         [HttpPost]
         public async Task<ActionResult> LogOff()
         {
