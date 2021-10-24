@@ -6,6 +6,12 @@
 @model IEnumerable<RecipeBox.Models.Recipe>
 
 <h1>Recipes for @User.Identity.Name</h1>
+@using (Html.BeginForm())
+{
+    <p>
+        Find by name: @Html.TextBox("SearchString")  
+        <input type="submit" value="Search" /></p>
+}
 
 @if (Model.Any())
 {
