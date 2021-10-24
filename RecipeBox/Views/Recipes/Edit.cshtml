@@ -6,7 +6,10 @@
 
 <h2>Edit</h2>
 
-<h4>Edit this recipe: @Html.DisplayFor(model => model.Description)</h4>
+<h4>Edit this recipe: 
+  @Html.DisplayFor(model => model.Description)
+  @Html.DisplayFor(model => model.Rate)
+</h4>
 
 @using (Html.BeginForm())
 {
@@ -14,6 +17,8 @@
 
   @Html.LabelFor(model => model.Description)
   @Html.EditorFor(model => model.Description)
+  @Html.LabelFor(model => model.Rate)
+  @Html.EditorFor(model => model.Rate)
 
   @Html.Label("Select category")
   @Html.DropDownList("CategoryId")
